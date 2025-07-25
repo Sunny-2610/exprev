@@ -1,4 +1,7 @@
 import express from 'express'
+import { userLogin, userSignup } from './controllers.js'
+import router from './route.js'
+
 
 const app= express()
 
@@ -11,6 +14,7 @@ app.get('/',(req,res)=>{
 
 })
 
+app.use('/user',router)
 app.listen(PORT, ()=>{
     console.log(`Srever is running on http://localhost:${PORT} `)
 })
