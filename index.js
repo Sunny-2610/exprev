@@ -3,24 +3,20 @@ import express from 'express'
 const app = express()
 const PORT = 3000
 
+//set EJS as the view engine
+app.set('view engine', 'ejs')
 
 
 
 
 
 app.get('/',(req,res)=>{
-    console.log('Middle')
-    res.send('Hello,Sunny')
+
+   const userName = 'Sunny Sinha'
+   res.render('index',{userName})
 })
 
-app.get('/error',()=>{
-    throw new Error('This is test error')
-})
 
-app.use((err,req,res,next)=>{
-      console.error(err.message)
-      res.send('Internal server error')
-})
 
 
 app.listen(PORT, () => {
