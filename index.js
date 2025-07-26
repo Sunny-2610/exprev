@@ -1,47 +1,26 @@
 import express from 'express'
-import { userLogin, userSignup } from './controllers.js'
-import router from './route.js'
 
-
-const app= express()
-
+const app = express()
 const PORT = 3000
 
-//defining route
+ app.use('/welcome',(req,res,next)=>{
+    console.log('A new request received at ' +Date.now())
+    next()
+ })
 
+
+// catch all invalid routes
+
+
+// catch all invalid routes
 app.get('/',(req,res)=>{
-    res.send('Hello,Express by sunny')
-
+    res.send('Hello,Sunny')
+})
+app.get('/welcome',(req,res)=>{
+    res.send('Welcome to express app')
 })
 
-app.use('/user',router)
 
-app.use(express.json())
-
-app.post ('/users',(req,res)=>{
-    const {name,email} = req.body
-    res.json({
-        message:`User ${name} with email ${email} created sucessfully`
-    })
-})
-
-app.put('/users/:id',(req,res)=>{
-    const userId = req.params.id
-    const {name,email} = req.body
-    res.json({
-        message: `User ${userId} updated to ${name} ,${email}`
-    })
-})
-
-app.delete('/users/:id',(req,res)=>{
-  const userId= req.params.id
-  res.json({
-    message:`User with ID ${userId} deleted sucessfully`
-  })
-
-})
-         
-
-app.listen(PORT, ()=>{
-    console.log(`Srever is running on http://localhost:${PORT} `)
+app.listen(PORT, () => {
+    console.log(`Srever is running on http://localhost:${PORT}`)
 })
