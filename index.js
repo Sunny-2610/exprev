@@ -3,13 +3,7 @@ import express from 'express'
 const app = express()
 const PORT = 3000
 
-app.use((req,res,next)=>{
-   console.log('Start') 
-   res.on('finish',()=>{
-    console.log('End')
-   })
-   next()
-})
+
 
 
 
@@ -19,6 +13,14 @@ app.get('/',(req,res)=>{
     res.send('Hello,Sunny')
 })
 
+app.get('/error',()=>{
+    throw new Error('This is test error')
+})
+
+app.use((err,req,res,next)=>{
+      console.error(err.message)
+      res.send('Internal server error')
+})
 
 
 app.listen(PORT, () => {
