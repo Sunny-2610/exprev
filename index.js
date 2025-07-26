@@ -3,22 +3,22 @@ import express from 'express'
 const app = express()
 const PORT = 3000
 
- app.use('/welcome',(req,res,next)=>{
-    console.log('A new request received at ' +Date.now())
-    next()
- })
+app.use((req,res,next)=>{
+   console.log('Start') 
+   res.on('finish',()=>{
+    console.log('End')
+   })
+   next()
+})
 
 
-// catch all invalid routes
 
 
-// catch all invalid routes
 app.get('/',(req,res)=>{
+    console.log('Middle')
     res.send('Hello,Sunny')
 })
-app.get('/welcome',(req,res)=>{
-    res.send('Welcome to express app')
-})
+
 
 
 app.listen(PORT, () => {
