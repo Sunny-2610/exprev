@@ -48,6 +48,16 @@ app.put('/person',async(req,res)=>{
 })
 
 
+
+//deleted Data from MongoDb
+
+app.delete('/person/:id',async (req,res)=>{
+    const {id} =req.params
+    await Person.findByIdAndDelete(id)
+    res.send('User Deleted')
+})
+
+
 app.listen(PORT, () => {
     console.log(`Srever is running on http://localhost:${PORT}`)
 })
