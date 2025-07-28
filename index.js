@@ -17,7 +17,8 @@ app.get('/',(req,res)=>{
 //Saving data in mongodb
 app.post('/person',async(req,res)=>{
      
-    
+  try {
+      
     const {email,name,age} = req.body
     
      const newPerson = new Person({
@@ -28,6 +29,9 @@ app.post('/person',async(req,res)=>{
      await newPerson.save()
      console.log(newPerson)
      res.send('Person Added')
+  } catch (error) {
+    res.send(error.message)
+  }
 })
 
 
