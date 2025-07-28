@@ -9,13 +9,13 @@ const PORT = 3000; // or any other port
 await connectDB()
 
 
-
+app.use(express.json())
 app.get('/',(req,res)=>{
 
   res.send('Hello,Sunny')
 })
-
-app.post('/person',express.json(),async(req,res)=>{
+//Saving data in mongodb
+app.post('/person',async(req,res)=>{
      
     
     const {email,name,age} = req.body
@@ -30,6 +30,22 @@ app.post('/person',express.json(),async(req,res)=>{
      res.send('Person Added')
 })
 
+
+//updating aad in mongodb
+
+
+//updating aad in mongodb
+app.put('/person',async(req,res)=>{
+     
+    
+    const {id} = req.body
+    const personData =  await Person.findByIdAndUpdate(id,{age:'44'})
+    //modifying the data
+   
+    console.log(personData)
+     
+     res.send('Person Updated')
+})
 
 
 app.listen(PORT, () => {
