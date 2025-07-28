@@ -1,18 +1,13 @@
 import express from 'express'
-import multer from 'multer'
-import { storage } from './config/multer.js'
+import { connectDB } from './config/db.js';
+import { Person } from './models/Person.js';
 
 
-const app = express()
-const upload= multer({storage,
-    limits:{
-        fileSize:10240000
-    }
+const app = express();
+const PORT = 3000; // or any other port
 
-})
-const PORT = 3000
-app.use(express.urlencoded({extended: 'true'}))
-app.use(upload.single('image'))
+await connectDB()
+
 
 
 app.get('/',(req,res)=>{
@@ -20,11 +15,21 @@ app.get('/',(req,res)=>{
   res.send('Hello,Sunny')
 })
 
-app.post('/form',(req,res)=>{
-     console.log(req.body)
-     console.log(req.file)
-     res.send('Form Recieved')
+app.post('/person',express.json(),async(req,res)=>{
+     
+    
+    const {email,name,age} = req.body
+    
+     const newPerson = new Person({
+        name,
+        age,
+        email
+     })
+     await newPerson.save()
+     console.log(newPerson)
+     res.send('Person Added')
 })
+
 
 
 app.listen(PORT, () => {
