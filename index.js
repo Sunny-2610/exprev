@@ -14,28 +14,39 @@ app.use(session({
   saveUninitialized:false
 }))
 
+  const users = []
+
 app.use(express.json())
 app.get('/',(req,res)=>{
 
   res.send('Hello,Sunny')
 })
 
-    app.get('/visit',(req,res)=>{
-        if(req.session.page_views) {
-          req.session.page_views++;
-          res.send(`You Visited this page ${req.session.page_views} times`)
-        } else {
-          req.session.page_views = 1
-          res.send("welcome to the page for the first time !")
-        }
-    })
+   
+app.post('/register', async(req,res)=>{
+     const {username,password}  =req.body
+     users.push({
+      username,
+      password
+     })
+     res.send('User registered')
+})
+  app.post('/login', async(req,res)=>{
+     const {username,password}  =req.body
+      const user =users.find(u=>u.username===username)
+      if (!user || password !== user.password){
+        return res.send('Not Authorised')
+      } 
+      req.session.user = user
+     res.send('User Logged In')
+})
 
-
-   app.get('/remove-visit',(req,res)=>{
-        req.session.destroy()
-        res.send('Session Removes')
-   })
-
+  app.get('/dashboard',(req,res)=>{
+          if(!req.session.user){
+            return res.send('Unauthorized')
+          }
+        res.send(`Welcome, ${req.session.user.username}`)
+  })
 
 
 app.listen(PORT, () => {
